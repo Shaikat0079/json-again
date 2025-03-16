@@ -1,3 +1,10 @@
+function removeActiceClass(){
+  const activeButtons = document.getElementsByClassName("active");
+  // console.log(activeButtons)
+  for(let btn of activeButtons){
+    btn.classList.remove('active')
+  }
+}
 function loadCategories(){
     fetch('https://openapi.programming-hero.com/api/phero-tube/categories')
     .then(res=>res.json())
@@ -13,7 +20,7 @@ function displayCategories(categories){
         categoryDiv.innerHTML = 
         ` 
 
-        <button onclick='loadCategoryVideos(${cat.category_id})' class="btn btn-sm hover:bg-red-500 hover:text-white">${cat.category}</button>
+        <button id='btn-${cat.category_id}' onclick='loadCategoryVideos(${cat.category_id})' class="btn btn-sm hover:bg-red-500 hover:text-white">${cat.category}</button>
         
         `
         categoryContainer.append(categoryDiv)
@@ -33,6 +40,17 @@ const displayVideos = (videos)=>{
     const videoContainer = document.getElementById('video-container');
 
     videoContainer.innerHTML = "";
+
+    if(videos.length===0){
+      videoContainer.innerHTML = `
+      
+      <div class="col-span-full text-center flex flex-col justify-center items-center py-20">
+            <img class="w-28" src="./assets/Icon.png" alt="">
+            <h2 class="text-2xl font-bold">OOPs! Sorry, There is NO Content Here!!!!</h2>
+        </div>
+      
+      `
+    }
     videos.forEach(video => {
         // console.log(video)
         const videoCard = document.createElement("div");
@@ -69,5 +87,11 @@ const loadCategoryVideos =(id)=>{
   const url = `https://openapi.programming-hero.com/api/phero-tube/category/${id}`;
   fetch(url)
   .then(res=>res.json())
-  .then(data=>displayVideos(data.category))
+  .then(data=>{
+    removeActiceClass();
+    const clickedButton = document.getElementById(`btn-${id}`)
+    // console.log(clickedButton)
+    clickedButton.classList.add('active')
+    displayVideos(data.category)
+  })
 }
