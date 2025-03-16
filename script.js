@@ -39,7 +39,7 @@ const displayVideos = (videos)=>{
         
 <div class="card bg-base-100 w-96 shadow-sm">
   <figure>
-    <img
+    <img class='object-cover'
       src=${video.thumbnail}
       alt="Shoes" />
   </figure>
@@ -52,7 +52,7 @@ const displayVideos = (videos)=>{
     </h2>
     <p>${video.description}</p>
     <div class="card-actions justify-end">
-      <div class="badge badge-outline">Fashion</div>
+      <div class="badge badge-outline">${video.others.views}</div>
       <div class="badge badge-outline">Products</div>
     </div>
   </div>
