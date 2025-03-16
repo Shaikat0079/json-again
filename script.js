@@ -13,7 +13,7 @@ function displayCategories(categories){
         categoryDiv.innerHTML = 
         ` 
 
-        <button class="btn btn-sm hover:bg-red-500 hover:text-white">${cat.category}</button>
+        <button onclick='loadCategoryVideos(${cat.category_id})' class="btn btn-sm hover:bg-red-500 hover:text-white">${cat.category}</button>
         
         `
         categoryContainer.append(categoryDiv)
@@ -27,10 +27,12 @@ function loadVideos(){
     .then(data=>displayVideos(data.videos))
 }
 
-loadVideos()
+// loadVideos()
 
 const displayVideos = (videos)=>{
     const videoContainer = document.getElementById('video-container');
+
+    videoContainer.innerHTML = "";
     videos.forEach(video => {
         // console.log(video)
         const videoCard = document.createElement("div");
@@ -61,4 +63,11 @@ const displayVideos = (videos)=>{
         videoContainer.append(videoCard)
     });
 
+}
+
+const loadCategoryVideos =(id)=>{
+  const url = `https://openapi.programming-hero.com/api/phero-tube/category/${id}`;
+  fetch(url)
+  .then(res=>res.json())
+  .then(data=>displayVideos(data.category))
 }
